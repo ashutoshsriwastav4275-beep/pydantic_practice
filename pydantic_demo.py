@@ -29,7 +29,7 @@
 # Any URL
 from pydantic import BaseModel, ValidationError, Field, EmailStr, field_validator
 
-class student(BaseModel):
+class Student(BaseModel):
     name: str = Field(max_length=50, description= "provide the name of the student")
     email: EmailStr = Field(description="provide valid email of the student", examples = ["abc@gamil.com"])
     age: int
@@ -39,7 +39,7 @@ class student(BaseModel):
 
 @field_validator('email')
 @classmethod
-def email_validator(cls, value):
+def email_validator(Cls, value):
     domain_name = value.split('@')[-1]
     
     if domain_name != "masai.com":
@@ -48,19 +48,20 @@ def email_validator(cls, value):
 
 @field_validator('college')
 @classmethod
-def transform_college_name_to_upper_case(cls, value):
-    return value. lower()
+def transform_college_name_to_upper_case(Cls, value):
+    return value.upper()
 
 @field_validator('age', mode = "before")
 @classmethod
-def validate_age(cls, value):
+def validate_age(Cls, value):
     if value < 0 and value > 100:
      raise ValueError("Invalid age provided.")
+    
     return value    
 #  default value for mode is after
 
-student_info = {'name': 'Chirag', 'email': 'abc@masai.in', 'age': '20', 'college': 'Masai'}
+Student_info = {'name': 'Chirag', 'email': 'abc@google.com', 'age': '20', 'college': 'Masai'}
 
-student = student(**student_info)
-print(student.college) 
+Student = Student(**Student_info)
+print(Student.college) 
 
