@@ -46,12 +46,21 @@ def email_validator(cls, value):
       raise ValueError("not a valid domain for email.")
     return value
 
+@field_validator('college')
+@classmethod
+def transform_college_name_to_upper_case(cls, value):
+    return value. lower()
 
+@field_validator('age', mode = "before")
+@classmethod
+def validate_age(cls, value):
+    if value < 0 and value > 100:
+     raise ValueError("Invalid age provided.")
+    return value    
+#  default value for mode is after
 
-
-student_info = {'name': 'Chirag', 'email': 'abd@masai.in', 'age': 20, 'college': 'Masai'}
-
+student_info = {'name': 'Chirag', 'email': 'abc@masai.in', 'age': '20', 'college': 'Masai'}
 
 student = student(**student_info)
-print(student.name) 
+print(student.college) 
 
