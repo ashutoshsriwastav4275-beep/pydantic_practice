@@ -26,17 +26,32 @@
 # create an ideal model class using pydantic
 # ** -> unpacking the dictionary and passing it as keyword arguments to the student class constructor
 #  Field validation in pydantic - validating the values of attributes in a pydantic model. In addition to type validation, pydantic also allows you to define custom validation rules for your model fields. You can use the @validator decorator to create custom validation methods that will be called during the validation process. These methods can check for specific conditions, such as ensuring that a string is not empty or that a number falls within a certain range.
-
-from pydantic import BaseModel, ValidationError, Field, EmailStr
+# Any URL
+from pydantic import BaseModel, ValidationError, Field, EmailStr, field_validator
 
 class student(BaseModel):
-    name: str
-    email: EmailStr
+    name: str = Field(max_length=50, description= "provide the name of the student")
+    email: EmailStr = Field(description="provide valid email of the student", examples = ["abc@gamil.com"])
     age: int
     college: str
+# This field validator is used to validate if email belongs to masai.com or not
+#  list= [1, 2, 3, 4, 5] = list[-1] -> 5
 
-student_info = {'name': 'Chirag', 'email': 'abd@google.com', 'age': 20, 'college': 'Masai'}
+@field_validator('email')
+@classmethod
+def email_validator(cls, value):
+    domain_name = value.split('@')[-1]
+    
+    if domain_name != "masai.com":
+      raise ValueError("not a valid domain for email.")
+    return value
+
+
+
+
+student_info = {'name': 'Chirag', 'email': 'abd@masai.in', 'age': 20, 'college': 'Masai'}
 
 
 student = student(**student_info)
 print(student.name) 
+
