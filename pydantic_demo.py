@@ -27,15 +27,16 @@
 # ** -> unpacking the dictionary and passing it as keyword arguments to the student class constructor
 #  Field validation in pydantic - validating the values of attributes in a pydantic model. In addition to type validation, pydantic also allows you to define custom validation rules for your model fields. You can use the @validator decorator to create custom validation methods that will be called during the validation process. These methods can check for specific conditions, such as ensuring that a string is not empty or that a number falls within a certain range.
 
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel, ValidationError, Field, EmailStr
 
 class student(BaseModel):
     name: str
+    email: EmailStr
     age: int
     college: str
 
-student_info = {'name': 'Chirag', 'age': 20, 'college': 'Masai'}
+student_info = {'name': 'Chirag', 'email': 'abd@google.com', 'age': 20, 'college': 'Masai'}
 
 
 student = student(**student_info)
-print(student.name)
+print(student.name) 
